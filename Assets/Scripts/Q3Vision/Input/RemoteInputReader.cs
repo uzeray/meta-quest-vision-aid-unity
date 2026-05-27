@@ -29,6 +29,7 @@ namespace Q3Vision.Input
             return new RemoteInputFrame(
                 hasGamepad: true,
                 zoomAxisY: leftStick.y,
+                brightnessAxisX: leftStick.x,
                 resetZoomPressed: resetPressed
             );
         }

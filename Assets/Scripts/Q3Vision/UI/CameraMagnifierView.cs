@@ -24,6 +24,8 @@ namespace Q3Vision.UI
         private bool isCreated;
         private bool requestedVisible;
 
+        private float brightnessMultiplier = 1.0f;
+
         private const float CanvasWorldScale = 0.0015f;
         private const float PanelPixelWidth = 900f;
         private const float PanelPixelHeight = 650f;
@@ -128,6 +130,21 @@ namespace Q3Vision.UI
             isCreated = true;
         }
 
+        public void SetBrightnessMultiplier(float multiplier)
+        {
+            brightnessMultiplier = Mathf.Clamp(multiplier, 0.85f, 1.15f);
+
+            if (rawImage != null)
+            {
+                rawImage.color = new Color(
+                    brightnessMultiplier,
+                    brightnessMultiplier,
+                    brightnessMultiplier,
+                    1.0f
+                );
+            }
+        }
+
         public void Show(float zoomFactor)
         {
             requestedVisible = true;
@@ -194,6 +211,12 @@ namespace Q3Vision.UI
             }
 
             rawImage.texture = cameraTexture;
+            rawImage.color = new Color(
+                brightnessMultiplier,
+                brightnessMultiplier,
+                brightnessMultiplier,
+                1.0f
+            );
 
             float safeZoom = Mathf.Max(1.0f, zoomFactor);
             bool borderVisible = safeZoom >= borderVisibleThreshold;
