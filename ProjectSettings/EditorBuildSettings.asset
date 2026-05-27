@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/VisionAidPassthroughScene.unity
+    guid: 5bc2deb047accac4c90a85ca75d84251
+  - enabled: 1
+    path: Assets/Scenes/VisionAidPassthroughScene_OVR.unity
+    guid: ad74ef279cb6ef4409b7c9dc1304c359
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: d4f636de4ecc4e942848ab2cefef0176, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 9d2182faca4c56349be831ea18a4404a, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 3d6466e8d32887f42b85a7cd8c76defc, type: 2}
