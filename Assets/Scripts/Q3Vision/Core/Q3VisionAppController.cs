@@ -22,12 +22,25 @@ namespace Q3Vision.Core
         [SerializeField] private float hudVisibleSeconds = 3.0f;
 
         [Tooltip("X: sağ/sol, Y: yukarı/aşağı, Z: gözden uzaklık")]
-        [SerializeField] private Vector3 hudLocalPosition = new Vector3(0.10f, -0.06f, 1.25f);
+        [SerializeField] private Vector3 hudLocalPosition = new Vector3(0.5f, -0.5f, 1.25f);
+
+        [Header("Camera Magnifier View")]
+        [SerializeField] private bool enableCameraMagnifierView = true;
+
+        [Tooltip("X: sağ/sol, Y: yukarı/aşağı, Z: gözden uzaklık")]
+        [SerializeField] private Vector3 magnifierLocalPosition = new Vector3(0.0f, 0.0f, 1.35f);
+
+        [Tooltip("X: genişlik, Y: yükseklik")]
+        [SerializeField] private Vector2 magnifierPanelSize = new Vector2(1.20f, 0.90f);
+
+        [SerializeField] private float magnifierVisibleThreshold = 1.05f;
+        [SerializeField] private float magnifierBorderVisibleThreshold = 1.20f;
 
         private Camera mainCamera;
         private RemoteInputReader remoteInputReader;
         private ZoomController zoomController;
         private ZoomHudView zoomHudView;
+        private CameraMagnifierView cameraMagnifierView;
 
         public float ZoomFactor => zoomController?.ZoomFactor ?? initialZoom;
         public VisionMode CurrentMode => currentMode;
@@ -38,6 +51,7 @@ namespace Q3Vision.Core
 
             if (mainCamera == null)
             {
+                Debug.LogWarning("Q3VisionAppController: Main Camera not found.");
                 return;
             }
 
@@ -62,6 +76,18 @@ namespace Q3Vision.Core
                 zoomHudView.Create();
             }
 
+            if (enableCameraMagnifierView)
+            {
+                cameraMagnifierView = new CameraMagnifierView(
+                    mainCamera: mainCamera,
+                    localPosition: magnifierLocalPosition,
+                    panelSize: magnifierPanelSize,
+                    borderVisibleThreshold: magnifierBorderVisibleThreshold
+                );
+
+                cameraMagnifierView.Create();
+            }
+
             Debug.Log("Q3VisionAppController: Started.");
         }
 
@@ -77,6 +103,11 @@ namespace Q3Vision.Core
             HandleZoomInput(inputFrame);
 
             zoomHudView?.Tick();
+
+            if (currentMode == VisionMode.CameraMagnifier)
+            {
+                cameraMagnifierView?.Tick(zoomController.ZoomFactor);
+            }
         }
 
         private void HandleZoomInput(RemoteInputFrame inputFrame)
@@ -94,7 +125,20 @@ namespace Q3Vision.Core
             if (zoomChanged)
             {
                 currentMode = VisionMode.CameraMagnifier;
-                zoomHudView?.Show(zoomController.ZoomFactor);
+
+                float currentZoom = zoomController.ZoomFactor;
+
+                zoomHudView?.Show(currentZoom);
+
+                if (currentZoom >= magnifierVisibleThreshold)
+                {
+                    cameraMagnifierView?.Show(currentZoom);
+                }
+                else
+                {
+                    cameraMagnifierView?.Hide();
+                    currentMode = VisionMode.NativePassthrough;
+                }
             }
 
             if (inputFrame.ResetZoomPressed)
@@ -108,8 +152,10 @@ namespace Q3Vision.Core
             zoomController.Reset();
 
             currentMode = VisionMode.NativePassthrough;
+            cameraMagnifierView?.Hide();
             zoomHudView?.Show(zoomController.ZoomFactor);
 
+            Debug.Log("Q3VisionAppController: Zoom reset.");
         }
 
         private Camera FindMainCamera()
@@ -124,17 +170,13 @@ namespace Q3Vision.Core
                 FindObjectsSortMode.None
             );
 
-            if (cameras.Length > 0)
-            {
-                return cameras[0];
-            }
-
-            return null;
+            return cameras.Length > 0 ? cameras[0] : null;
         }
 
         private void OnDestroy()
         {
             zoomHudView?.Destroy();
+            cameraMagnifierView?.Destroy();
         }
     }
 }

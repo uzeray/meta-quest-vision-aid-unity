@@ -278,6 +278,74 @@ Transform:
   - {fileID: 664411068}
   m_Father: {fileID: 472372529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &292492153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 292492156}
+  - component: {fileID: 292492155}
+  - component: {fileID: 292492154}
+  m_Layer: 0
+  m_Name: '[BuildingBlock] Passthrough Camera Access'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &292492154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292492153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef9a7893e57c04c0db4114c70954b915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: meta.xr.mrutilitykit::Meta.XR.PassthroughCameraAccess
+  CameraPosition: 0
+  RequestedResolution: {x: 1280, y: 1280}
+  _maxFramerate: 60
+  TargetMaterial: {fileID: 0}
+  _texturePropertyName: 
+--- !u!114 &292492155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292492153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b023183069df224080314a560e6e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
+  blockId: 0792d3af-c7d9-4f9c-a6f0-fd580a051e48
+  instanceId: e21c2aff-22ac-43f0-b3c3-36678f4af7fe
+  version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
+--- !u!4 &292492156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292492153}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &323483111
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,12 +928,17 @@ MonoBehaviour:
   currentMode: 0
   initialZoom: 1
   minZoom: 1
-  maxZoom: 6
+  maxZoom: 8
   zoomSpeed: 1.5
   joystickDeadZone: 0.25
   showZoomHud: 1
   hudVisibleSeconds: 3
   hudLocalPosition: {x: 0.5, y: -0.5, z: 1.25}
+  enableCameraMagnifierView: 1
+  magnifierLocalPosition: {x: 0, y: 0, z: 1.35}
+  magnifierPanelSize: {x: 1.2, y: 0.9}
+  magnifierVisibleThreshold: 1.05
+  magnifierBorderVisibleThreshold: 1.2
 --- !u!4 &1884534666
 Transform:
   m_ObjectHideFlags: 0
@@ -1253,3 +1326,4 @@ SceneRoots:
   - {fileID: 2046735883}
   - {fileID: 1957641239}
   - {fileID: 1884534666}
+  - {fileID: 292492156}
