@@ -21,3 +21,4 @@
 *.VC.db
 
 .DS_Store
+replay_pid*.log
